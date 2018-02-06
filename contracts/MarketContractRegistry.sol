@@ -21,11 +21,15 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 
 /// @title MarketContractRegistry
-/// @author Phil Elsasser <phil@marketprotcol.io>
+/// @author Phil Elsasser <phil@marketprotocol.io>
 contract MarketContractRegistry is Ownable {
 
     mapping(address => bool) isWhiteListed;
     address[] addressWhiteList;            // record of currently deployed addresses;
+
+    // events
+    event AddressAddedToWhitelist(address indexed contractAddress);
+    event AddressRemovedFromWhitelist(address indexed contractAddress);
 
     /// @notice determines if an address is a valid MarketContract
     /// @return false if the address is not white listed.
@@ -51,6 +55,7 @@ contract MarketContractRegistry is Ownable {
         // push the last item in array to replace the address we are removing and then trim the array.
         addressWhiteList[whiteListIndex] = addressWhiteList[addressWhiteList.length - 1];
         addressWhiteList.length -= 1;
+        AddressRemovedFromWhitelist(contractAddress);
     }
 
     /// @dev allows for the owner to add a white listed contract, eventually ownership could transition to
@@ -61,5 +66,6 @@ contract MarketContractRegistry is Ownable {
         require(MarketContract(contractAddress).isCollateralPoolContractLinked());
         isWhiteListed[contractAddress] = true;
         addressWhiteList.push(contractAddress);
+        AddressAddedToWhitelist(contractAddress);
     }
 }

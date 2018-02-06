@@ -27,7 +27,7 @@ import "zeppelin-solidity/contracts/token/ERC20.sol";
 
 /// @title MarketCollateralPool is a contract controlled by a specific Market Contract.  It holds collateral balances
 /// as well as user balances and open positions.  It should be instantiated and then linked by a MarketContract.
-/// @author Phil Elsasser <phil@marketprotcol.io>
+/// @author Phil Elsasser <phil@marketprotocol.io>
 contract MarketCollateralPool is Linkable {
     using MathLib for uint;
     using MathLib for int;
@@ -254,7 +254,7 @@ contract MarketCollateralPool is Linkable {
         uint neededCollateral = MathLib.calculateNeededCollateral(
             MKT_CONTRACT.PRICE_FLOOR(),
             MKT_CONTRACT.PRICE_CAP(),
-            MKT_CONTRACT.QTY_DECIMAL_PLACES(),
+            MKT_CONTRACT.QTY_MULTIPLIER(),
             qty,
             price
         );
@@ -284,7 +284,7 @@ contract MarketCollateralPool is Linkable {
                     MathLib.calculateNeededCollateral(
                         MKT_CONTRACT.PRICE_FLOOR(),
                         MKT_CONTRACT.PRICE_CAP(),
-                        MKT_CONTRACT.QTY_DECIMAL_PLACES(),
+                        MKT_CONTRACT.QTY_MULTIPLIER(),
                         position.qty,
                         price
                     )
@@ -298,7 +298,7 @@ contract MarketCollateralPool is Linkable {
                     MathLib.calculateNeededCollateral(
                         MKT_CONTRACT.PRICE_FLOOR(),
                         MKT_CONTRACT.PRICE_CAP(),
-                        MKT_CONTRACT.QTY_DECIMAL_PLACES(),
+                        MKT_CONTRACT.QTY_MULTIPLIER(),
                         qtyToReduce * -1,
                         price
                     )
